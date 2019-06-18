@@ -1,3 +1,4 @@
 import MapInterface from './map.js';
 
-new MapInterface(); // map interface instance
+const mapInterface = new MapInterface(); // map interface instance
+mapInterface.run(); // render map

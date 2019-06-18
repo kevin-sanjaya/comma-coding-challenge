@@ -1,7 +1,6 @@
 export default class Service {
-    trip = [];
-
     constructor() {
+        this.trip = [];
     }
 
     async populate() {
