@@ -12,7 +12,7 @@ export default class Service {
 
             i += 1;
 
-            if (i === 528)
+            if (i === 527)
                 break;
         }
     }

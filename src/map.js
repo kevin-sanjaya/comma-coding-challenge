@@ -3,6 +3,7 @@ import Service from './service.js';
 export default class MapInterface {
     constructor() {
         this.service = new Service();
+        this.activeLayer = [];
     }
 
     run() {
@@ -42,18 +43,31 @@ export default class MapInterface {
             L.polyline(latlngs, { color: this.color(), weight: 1 })
                 .addTo(this.map)
                 .on('mouseover', event => {
-                    event.target.color = event.target.options.color;
-                    event.target.options.weight = 3;
                     event.target.setStyle({
-                        color: 'black'
+                        weight: 5
                     });
                     event.target.bringToFront();
                 })
                 .on('mouseout', event => {
-                    event.target.options.weight = 1;
-                    event.target.setStyle({
-                        color: event.target.color
-                    })
+                    if (!this.activeLayer.includes(event.target)) {
+                        event.target.setStyle({
+                            weight: 1
+                        });
+                    }
+                })
+                .on('click', event => {
+                    if (!this.activeLayer.includes(event.target) || this.activeLayer.length === 0) {
+                        event.target.setStyle({
+                            weight: 5
+                        });
+                        event.target.bringToFront();
+                        this.activeLayer.push(event.target);
+                    } else {
+                        this.activeLayer[this.activeLayer.indexOf(event.target)].setStyle({
+                            weight: 1
+                        });
+                        this.activeLayer = this.activeLayer.filter(layer => layer !== event.target);
+                    }
                 });
             latlngs = [];
         });
