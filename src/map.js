@@ -42,6 +42,7 @@ export default class MapInterface {
             });
             L.polyline(latlngs, { color: this.color(), weight: 1 })
                 .addTo(this.map)
+                .bindPopup('Hello World.', { closeOnClick: false, autoClose: false })
                 .on('mouseover', event => {
                     event.target.setStyle({
                         weight: 5
@@ -63,6 +64,7 @@ export default class MapInterface {
                         event.target.bringToFront();
                         this.activeLayer.push(event.target);
                     } else {
+                        event.target.closePopup();
                         this.activeLayer[this.activeLayer.indexOf(event.target)].setStyle({
                             weight: 1
                         });
