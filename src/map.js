@@ -4,6 +4,7 @@ export default class MapInterface {
     constructor() {
         this.service = new Service();
         this.activeLayer = [];
+		this.speed = [];
     }
 
     run() {
@@ -36,13 +37,15 @@ export default class MapInterface {
 
     draw() {
         let latlngs = [];
+		let speed = [];
         this.service.trip.forEach(trip => {
             trip.coords.forEach(coords => {
                 latlngs.push([coords.lat, coords.lng]);
+				speed.push(coords.speed);
             });
             L.polyline(latlngs, { color: this.color(), weight: 1 })
                 .addTo(this.map)
-                .bindPopup('Hello World.', { closeOnClick: false, autoClose: false })
+                .bindPopup(`Average speed: ${speed.reduce((a, b) => a + b, 0)/speed.length}`, { closeOnClick: false, autoClose: false })
                 .on('mouseover', event => {
                     event.target.setStyle({
                         weight: 5
@@ -72,6 +75,7 @@ export default class MapInterface {
                     }
                 });
             latlngs = [];
+			speed= [];
         });
     }
 }
